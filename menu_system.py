@@ -203,3 +203,25 @@ def order_dish(username):
             print("Invalid choice.")
     except ValueError:
         print("Invalid input.")
+        
+def delete_saved_dish(username):
+    orders = load_json(ORDERS_FILE)
+    if username not in orders or not orders[username]:
+        print("No saved orders.")
+        return
+    
+    print("\nYour saved dishes:")
+    for idx, order in enumerate(orders[username], 1):
+        print(f"{idx}. Week {order['week']} - {order['day']}: {order['dish']}")
+
+    choice = input("Enter the number of the dish you want to delete: ")
+    try:
+        choice = int(choice)
+        if 1 <= choice <= len(orders[username]):
+            deleted_dish = orders[username].pop(choice - 1)
+            save_json(ORDERS_FILE, orders)
+            print(f"Dish {deleted_dish['dish']} deleted successfully!")
+        else:
+            print("Invalid choice.")
+    except ValueError:
+        print("Invalid input.")
