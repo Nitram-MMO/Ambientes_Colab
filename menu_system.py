@@ -15,3 +15,14 @@ DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 meat_dishes = ["Steak", "Chicken Curry", "Pork Chops", "Beef Stew", "Grilled Lamb"]
 fish_dishes = ["Grilled Salmon", "Fish and Chips", "Tuna Salad", "Shrimp Pasta", "Baked Cod"]
 vegetarian_dishes = ["Veggie Burger", "Pasta Primavera", "Grilled Vegetables", "Tofu Stir-fry", "Vegetable Curry"]
+
+def load_json(filename):
+    if not os.path.exists(filename):
+        with open(filename, 'w') as f:
+            json.dump({}, f)
+    with open(filename, 'r') as f:
+        return json.load(f)
+
+def save_json(filename, data):
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=4)
