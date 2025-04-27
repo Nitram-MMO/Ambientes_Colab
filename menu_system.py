@@ -16,25 +16,6 @@ meat_dishes = ["Steak", "Chicken Curry", "Pork Chops", "Beef Stew", "Grilled Lam
 fish_dishes = ["Grilled Salmon", "Fish and Chips", "Tuna Salad", "Shrimp Pasta", "Baked Cod"]
 vegetarian_dishes = ["Veggie Burger", "Pasta Primavera", "Grilled Vegetables", "Tofu Stir-fry", "Vegetable Curry"]
 
-def load_json(filename):
-    if not os.path.exists(filename):
-        with open(filename, 'w') as f:
-            json.dump({}, f)
-    with open(filename, 'r') as f:
-        return json.load(f)
-
-def save_json(filename, data):
-    with open(filename, 'w') as f:
-        json.dump(data, f, indent=4)
-        
-def normalize_day(day_input):
-    day_input = day_input.strip().lower().capitalize()
-    if day_input in DAYS:
-        return day_input
-    else:
-        print("Invalid day entered. Please try again.")
-        return None
-    
 def main():
     if not os.path.exists(MENU_FILE) or os.stat(MENU_FILE).st_size == 0:
         generate_weekly_menu()
@@ -79,6 +60,25 @@ def main():
         else:
             print("Invalid choice.")
             
+def load_json(filename):
+    if not os.path.exists(filename):
+        with open(filename, 'w') as f:
+            json.dump({}, f)
+    with open(filename, 'r') as f:
+        return json.load(f)
+
+def save_json(filename, data):
+    with open(filename, 'w') as f:
+        json.dump(data, f, indent=4)
+        
+def normalize_day(day_input):
+    day_input = day_input.strip().lower().capitalize()
+    if day_input in DAYS:
+        return day_input
+    else:
+        print("Invalid day entered. Please try again.")
+        return None
+    
 def register_user():
     users = load_json(USER_FILE)
     username = input("Enter new username: ")
@@ -89,3 +89,17 @@ def register_user():
     users[username] = {"password": password}
     save_json(USER_FILE, users)
     print("Account created successfully!")
+    
+def login_user():
+    users = load_json(USER_FILE)
+    username = input("Username: ")
+    password = input("Password: ")
+    if username == "manager" and password == "manager":
+        print("Logged in as Manager!")
+        return "manager"
+    if username in users and users[username]["password"] == password:
+        print(f"Welcome {username}!")
+        return username
+    else:
+        print("Invalid credentials.")
+        return None
