@@ -59,7 +59,23 @@ def main():
             break
         else:
             print("Invalid choice.")
-            
+
+def manager_menu():
+    while True:
+        print("\nManager Menu")
+        print("1. View Weekly Menu")
+        print("2. Edit Weekly Menu")
+        print("3. Logout")
+        choice = input("Choose an option: ")
+        if choice == "1":
+            view_weekly_menu()
+        elif choice == "2":
+            edit_weekly_menu()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid option.")            
+
 def load_json(filename):
     if not os.path.exists(filename):
         with open(filename, 'w') as f:
@@ -235,18 +251,7 @@ def view_saved_orders(username):
     for order in orders[username]:
         print(f"Week {order['week']} - {order['day']}: {order['dish']}")
         
-def manager_menu():
-    while True:
-        print("\nManager Menu")
-        print("1. View Weekly Menu")
-        print("2. Edit Weekly Menu")
-        print("3. Logout")
-        choice = input("Choose an option: ")
-        if choice == "1":
-            view_weekly_menu()
-        elif choice == "2":
-            edit_weekly_menu()
-        elif choice == "3":
-            break
-        else:
-            print("Invalid option.")
+
+            
+if __name__ == "__main__":
+    main()
