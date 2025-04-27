@@ -65,16 +65,19 @@ def manager_menu():
         print("\nManager Menu")
         print("1. View Weekly Menu")
         print("2. Edit Weekly Menu")
-        print("3. Logout")
+        print("3. View All User Orders")  # Added option
+        print("4. Logout")
         choice = input("Choose an option: ")
         if choice == "1":
             view_weekly_menu()
         elif choice == "2":
             edit_weekly_menu()
         elif choice == "3":
+            view_all_user_orders()  # Call the new function
+        elif choice == "4":
             break
         else:
-            print("Invalid option.")            
+            print("Invalid option.")
 
 def load_json(filename):
     if not os.path.exists(filename):
@@ -251,7 +254,16 @@ def view_saved_orders(username):
     for order in orders[username]:
         print(f"Week {order['week']} - {order['day']}: {order['dish']}")
         
+def view_all_user_orders():
+    orders = load_json(ORDERS_FILE)
+    if not orders:
+        print("No orders saved.")
+        return
 
+    for username, user_orders in orders.items():
+        print(f"\n{username}'s Orders:")
+        for order in user_orders:
+            print(f"Week {order['week']} - {order['day']}: {order['dish']}")
             
 if __name__ == "__main__":
     main()
