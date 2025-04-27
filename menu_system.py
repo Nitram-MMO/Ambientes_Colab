@@ -103,3 +103,19 @@ def login_user():
     else:
         print("Invalid credentials.")
         return None
+    
+def generate_weekly_menu():
+    menu = {}
+    for week in range(1, 5):
+        week_menu = {}
+        meat_choices = random.sample(meat_dishes, len(DAYS))
+        fish_choices = random.sample(fish_dishes, len(DAYS))
+        vegetarian_choices = random.sample(vegetarian_dishes, len(DAYS))
+        for i, day in enumerate(DAYS):
+            week_menu[day] = {
+                "Meat": {"dish": meat_choices[i], "price": FIXED_PRICE},
+                "Fish": {"dish": fish_choices[i], "price": FIXED_PRICE},
+                "Vegetarian": {"dish": vegetarian_choices[i], "price": FIXED_PRICE}
+            }
+        menu[f"Week{week}"] = week_menu
+    save_json(MENU_FILE, menu)
