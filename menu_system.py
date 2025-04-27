@@ -225,3 +225,12 @@ def delete_saved_dish(username):
             print("Invalid choice.")
     except ValueError:
         print("Invalid input.")
+        
+def view_saved_orders(username):
+    orders = load_json(ORDERS_FILE)
+    if username not in orders or not orders[username]:
+        print("No saved orders.")
+        return
+    print("\nYour saved dishes:")
+    for order in orders[username]:
+        print(f"Week {order['week']} - {order['day']}: {order['dish']}")
