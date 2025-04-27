@@ -26,3 +26,11 @@ def load_json(filename):
 def save_json(filename, data):
     with open(filename, 'w') as f:
         json.dump(data, f, indent=4)
+        
+def normalize_day(day_input):
+    day_input = day_input.strip().lower().capitalize()
+    if day_input in DAYS:
+        return day_input
+    else:
+        print("Invalid day entered. Please try again.")
+        return None
