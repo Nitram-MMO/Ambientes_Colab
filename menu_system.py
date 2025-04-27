@@ -165,3 +165,41 @@ def edit_weekly_menu():
     save_json(MENU_FILE, menu)
     print("Dish updated successfully!")
 
+def order_dish(username):
+    menu = load_json(MENU_FILE)
+    week_number = input("Enter current week number (1-4): ")
+    week_key = f"Week{week_number}"
+    if week_key not in menu:
+        print("No menu available for that week.")
+        return
+
+    day = None
+    while day is None:
+        day_input = input("Enter today (Monday-Friday): ")
+        day = normalize_day(day_input)
+
+    if day not in menu[week_key]:
+        print("Invalid day.")
+        return
+
+    print("\nAvailable dishes:")
+    dishes = menu[week_key][day]
+    for idx, (category, item) in enumerate(dishes.items(), 1):
+        print(f"{idx}. {category}: {item['dish']} - {item['price']}€")
+
+    choice = input("Choose a dish number to save: ")
+    try:
+        choice = int(choice)
+        if 1 <= choice <= 3:
+            category = list(dishes.keys())[choice-1]
+            selected_dish = dishes[category]["dish"]
+            orders = load_json(ORDERS_FILE)
+            if username not in orders:
+                orders[username] = []
+            orders[username].append({"week": week_number, "day": day, "dish": selected_dish})
+            save_json(ORDERS_FILE, orders)
+            print(f"Dish {selected_dish} saved successfully!")
+        else:
+            print("Invalid choice.")
+    except ValueError:
+        print("Invalid input.")
