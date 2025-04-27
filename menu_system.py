@@ -78,3 +78,14 @@ def main():
             break
         else:
             print("Invalid choice.")
+            
+def register_user():
+    users = load_json(USER_FILE)
+    username = input("Enter new username: ")
+    if username in users:
+        print("Username already exists.")
+        return
+    password = input("Enter new password: ")
+    users[username] = {"password": password}
+    save_json(USER_FILE, users)
+    print("Account created successfully!")
