@@ -38,7 +38,8 @@ def main():
                         print("2. Save Dish for Today")
                         print("3. View Saved Dishes")
                         print("4. Delete saved orders")
-                        print("5. Logout")
+                        print("5. Edit account details")
+                        print("6. Logout")
                         student_choice = input("Choose an option: ")
                         if student_choice == "1":
                             view_weekly_menu()
@@ -49,6 +50,8 @@ def main():
                         elif student_choice == "4":
                             delete_saved_dish(user)
                         elif student_choice == "5":
+                            edit_account_details(user)
+                        elif student_choice == "6":
                             break
                         else:
                             print("Invalid option.")
@@ -122,6 +125,18 @@ def login_user():
     else:
         print("Invalid credentials.")
         return None
+    
+def edit_account_details(username):
+    users = load_json(USER_FILE)
+    if username not in users:
+        print("User not found.")
+        return
+
+    new_password = input("Enter new password: ")
+    users[username]["password"] = new_password
+    save_json(USER_FILE, users)
+    print("Account details updated successfully!")
+    
     
 def generate_weekly_menu():
     menu = {}
