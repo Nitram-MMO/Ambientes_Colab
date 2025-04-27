@@ -133,4 +133,35 @@ def view_weekly_menu():
         for category, item in dishes.items():
             print(f"  {category}: {item['dish']} - {item['price']}€")
             
-            
+
+def edit_weekly_menu():
+    menu = load_json(MENU_FILE)
+    week_number = input("Enter week number to edit (1-4): ")
+    week_key = f"Week{week_number}"
+    if week_key not in menu:
+        print("No menu for that week.")
+        return
+
+    day = None
+    while day is None:
+        day_input = input("Enter day to edit (Monday-Friday): ")
+        day = normalize_day(day_input)
+
+    if day not in menu[week_key]:
+        print("Invalid day.")
+        return
+
+    print("\nCurrent dishes:")
+    for category, item in menu[week_key][day].items():
+        print(f"{category}: {item['dish']} - {item['price']}€")
+    
+    category = input("Enter category to edit (Meat/Fish/Vegetarian): ").capitalize()
+    if category not in ["Meat", "Fish", "Vegetarian"]:
+        print("Invalid category.")
+        return
+
+    new_dish = input(f"Enter new dish name for {category}: ")
+    menu[week_key][day][category]["dish"] = new_dish
+    save_json(MENU_FILE, menu)
+    print("Dish updated successfully!")
+
