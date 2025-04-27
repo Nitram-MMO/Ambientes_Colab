@@ -119,3 +119,18 @@ def generate_weekly_menu():
             }
         menu[f"Week{week}"] = week_menu
     save_json(MENU_FILE, menu)
+    
+def view_weekly_menu():
+    menu = load_json(MENU_FILE)
+    week_number = input("Enter week number (1-4): ")
+    week_key = f"Week{week_number}"
+    if week_key not in menu:
+        print("No menu available for that week.")
+        return
+    week_menu = menu[week_key]
+    for day, dishes in week_menu.items():
+        print(f"\n{day}:")
+        for category, item in dishes.items():
+            print(f"  {category}: {item['dish']} - {item['price']}€")
+            
+            
